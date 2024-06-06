@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.microservice.model.QuestionModel;
+import com.microservice.model.QuestionResponse;
+import com.microservice.model.Response;
 import com.microservice.service.QuestionService;
 
 
@@ -42,6 +44,22 @@ public class QuestionController {
         List<QuestionModel> response = service.fetchByCategory(category);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/generateQuest")
+    public ResponseEntity<List<Long>> generateQuestsForQuiz(@RequestParam String category,@RequestParam Integer noOfQuests){
+        return service.generateQuestsForQuiz(category,noOfQuests);
+    }
+    
+    @PostMapping("/getQuestions")
+    public ResponseEntity<List<QuestionResponse>> getQuestions(@RequestBody List<Long> questionIds) {
+        return service.getQuestions(questionIds);
+    }
+
+    @PostMapping("/getScore")
+    public ResponseEntity<Integer> getScore(@RequestBody List<Response> responses) {
+        return service.getScore(responses);
+    }
+    
     
     
 }
